@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'articles',
+    'interest_rates',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
@@ -148,3 +149,11 @@ REST_FRAMEWORK = {
 }
 
 SITE_ID = 1
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
