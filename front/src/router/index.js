@@ -5,6 +5,7 @@ import SignupView from '../views/SignupView.vue'
 import SigninView from '../views/SignInView.vue'
 import ArticleList from '../views/ArticleList.vue'
 import ArticleCreateView from '../views/ArticleCreateView.vue'
+import ArticleDetailView from '../views/ArticleDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/articles/create',
       name: 'articleCreate',
       component: ArticleCreateView,
+    },
+    {
+      path: '/articles/:id',
+      name: 'articleDetail',
+      component: ArticleDetailView,
     },
   ],
 })

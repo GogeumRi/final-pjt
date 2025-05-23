@@ -25,9 +25,12 @@ def article_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
+    if request.method == 'DELETE':
+        article.delete()
+        return Response({'status': 'ok'})
     serializer = ArticleSerializer(article)
     return Response(serializer.data)
     
@@ -39,7 +42,9 @@ def article_like(request, article_id):
         article.like_users.remove(request.user)
     else:
         article.like_users.add(request.user)
-    return Response({'status': 'ok'})
+    like_count = article.like_users.count()
+    article.save()
+    return Response({"like_count": like_count})
 
 @api_view(['GET', 'POST'])
 def comment_list(request, article_id):
