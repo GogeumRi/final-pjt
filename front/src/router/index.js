@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import InterestView from '@/views/InterestView.vue'
 import InterestInfoView from '@/views/InterestInfoView.vue'
 import SignupView from '../views/SignupView.vue'
 import SigninView from '../views/SignInView.vue'
@@ -15,9 +16,15 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/interest_info',
+      path: '/interest',
+      name: 'interest',
+      component: InterestView,
+    },
+    {
+      path: '/interest/:info',
       name: 'interest-info',
-      component: InterestInfoView,
+      component: InterestView,
+      props: true
     },
     {
       path: '/signup',

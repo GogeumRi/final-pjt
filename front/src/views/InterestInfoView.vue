@@ -1,6 +1,7 @@
 <template>
   <main class="container">
     <h1>예적금 금리 비교하기</h1>
+    <h2>정기예금 | 적금</h2>
       <div class="row">
         <InterestSearch :banks="banks" @search-bank="searchBank" />
         <InterestList :products="products" :desc="desc" @sort-by="sortBy" />
@@ -9,15 +10,21 @@
 </template>
 
 <script setup>
+const props = defineProps({
+  prdtType: String,
+})
 import { ref } from 'vue'
 import axios from 'axios'
 import InterestSearch from '@/components/InterestSearch.vue'
 import InterestList from '@/components/InterestList.vue'
+// import { useRouter } from 'vue-router'
+// const router = useRouter()
 
+const prdtType = ref(props.prdtType)
 const products = ref([])
 const banks = ref([])
 
-axios.get('http://127.0.0.1:8000/api/interest/read')
+axios.get(`http://127.0.0.1:8000/api/interest/read/${prdtType.value}`)
 .then(res => {
     products.value = []
     res.data.forEach(product => {

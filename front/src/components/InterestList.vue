@@ -83,8 +83,10 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            <button type="button" class="btn btn-danger" v-if="selectedProduct.is_joined" @click="join">가입 취소</button>
-            <button type="button" class="btn btn-primary" v-else @click="join">상품 가입</button>
+            <div v-if="auth.token">
+                <button type="button" class="btn btn-danger" v-if="auth.prdt_list.includes(selectedProduct.fin_prdt_cd)" @click="disJoin">가입 취소</button>
+                <button type="button" class="btn btn-primary" v-else @click="Join">상품 가입</button>
+            </div>
         </div>
         </div>
     </div>
@@ -99,17 +101,57 @@ defineProps({
 })
 defineEmits(['sortBy'])
 import { ref } from 'vue'
+import axios from 'axios'
+import { useAuthStore } from '@/stores/auth.js'
+const auth = useAuthStore()
 
 const selectedProduct = ref([])
 const selectProduct = (product) => {
   product.etc_note = product.etc_note.replace(/(?:\r\n|\r|\n)/g, '<br />')
   product.spcl_cnd = product.spcl_cnd.replace(/(?:\r\n|\r|\n)/g, '<br />')
   selectedProduct.value = product
-  selectedProduct.is_joined = false
 }
 
-const join = function () {
-    selectedProduct.value.is_joined = !selectedProduct.value.is_joined
+const Join = function () {
+    const wantProduct = selectedProduct.value.fin_prdt_cd
+    axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/accounts/interest/join/',
+        headers: {
+                Authorization: `Token ${auth.token}`,
+            },
+        data: {
+            fin_prdt_cd: wantProduct
+        },
+    })
+    .then(res => {
+        console.log(res)
+        auth.joinPrdt(wantProduct)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+const disJoin = function () {
+    const wantProduct = selectedProduct.value.fin_prdt_cd
+    axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/accounts/interest/disjoin/',
+        headers: {
+                Authorization: `Token ${auth.token}`,
+            },
+        data: {
+            fin_prdt_cd: wantProduct
+        },
+    })
+    .then(res => {
+        console.log(res)
+        auth.disjoinPrdt(wantProduct)
+    })
+    .catch(err => {
+        console.log(err)
+    })
 }
 
 </script>
