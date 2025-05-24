@@ -6,6 +6,7 @@ import SigninView from '../views/SignInView.vue'
 import ArticleList from '../views/ArticleList.vue'
 import ArticleCreateView from '../views/ArticleCreateView.vue'
 import ArticleDetailView from '../views/ArticleDetailView.vue'
+import ArticleEditView from '../views/ArticleEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/articles/:id',
       name: 'articleDetail',
       component: ArticleDetailView,
+    },
+    {
+      path: '/articles/:id/edit',
+      name: 'articleEdit',
+      component: ArticleEditView,
     },
   ],
 })

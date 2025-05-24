@@ -14,24 +14,30 @@ from .serializers import ArticleSerializer, CommentSerializer
 def article_list(request):
     if request.method == 'GET':
         articles = get_list_or_404(Article)
-        serializer = ArticleSerializer(articles, many=True)
+        serializer = ArticleSerializer(articles, many=True, context={'request': request})
         return Response(serializer.data)
     elif request.method == 'POST':
         if not request.user.is_authenticated:
             return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
-        serializer = ArticleSerializer(data=request.data)
+        serializer = ArticleSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET', 'DELETE', 'PUT'])
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     if request.method == 'DELETE':
         article.delete()
-        return Response({'status': 'ok'})
-    serializer = ArticleSerializer(article)
+        return Response({'status': 'ok'})    
+    elif request.method == 'PUT':
+        serializer = ArticleSerializer(article, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = ArticleSerializer(article, context={'request': request})
     return Response(serializer.data)
     
 @api_view(['POST'])
@@ -42,34 +48,43 @@ def article_like(request, article_id):
         article.like_users.remove(request.user)
     else:
         article.like_users.add(request.user)
-    like_count = article.like_users.count()
-    article.save()
-    return Response({"like_count": like_count})
+    serializer = ArticleSerializer(article, context={'request': request})
+    return Response(serializer.data)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 def comment_list(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     if request.method == 'GET':
-        comments = get_list_or_404(Comment, article=article)
-        serializer = CommentSerializer(comments, many=True)
+        comments = Comment.objects.filter(article=article)
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
         return Response(serializer.data)
     elif request.method == 'POST':
         if not request.user.is_authenticated:
             return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
-        serializer = CommentSerializer(data=request.data)
+        serializer = CommentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(user=request.user, article=article)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def comment_delete(request, article_id, comment_id):
+    comment = get_object_or_404(Comment, article_id=article_id, id=comment_id)
+    if request.user != comment.user:
+        return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+    comment.delete()
+    return Response({'status': 'ok'})
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def comment_like(request, comment_id):
-    comment = get_object_or_404(Comment, id=comment_id)
+def comment_like(request, article_id, comment_id):
+    comment = get_object_or_404(Comment, article_id=article_id, id=comment_id)
     if request.user in comment.like_users.all():
         comment.like_users.remove(request.user)
     else:
         comment.like_users.add(request.user)
-    return Response({'status': 'ok'})    
+    serializer = CommentSerializer(comment, context={'request': request})
+    return Response(serializer.data)    
     
     

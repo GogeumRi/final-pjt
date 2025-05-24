@@ -16,6 +16,16 @@ export const useArticleStore = defineStore('article', {
                 console.log(err)
             })
         },
+        getArticle(articleId) {
+            return this.articles.find((article) => article.id === articleId)
+        },
+        updateArticle(articleId, updatedArticle) {
+            axios.put(`http://localhost:8000/api/v1/articles/${articleId}/`, updatedArticle)
+            .then((res) => {
+                const index = this.articles.findIndex((article) => article.id === articleId)
+                this.articles[index] = res.data
+            })
+        },
         likeArticle(articleId) {
             const authStore = useAuthStore()
             axios({
@@ -29,16 +39,7 @@ export const useArticleStore = defineStore('article', {
                 const updated = res.data
                 const index = this.articles.findIndex((article) => article.id === articleId)
                 if (index !== -1) {
-                    const updatedArticle = {
-                        ...this.articles[index],
-                        like_count: updated.like_count,
-                        like_users: updated.like_users,
-                    }
-                    this.articles = [
-                        ...this.articles.slice(0, index),
-                        updatedArticle,
-                        ...this.articles.slice(index + 1),
-                    ]
+                    this.articles.splice(index, 1, updated)
                 }
             })
             .catch((err) => {
