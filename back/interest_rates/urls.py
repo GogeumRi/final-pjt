@@ -19,5 +19,5 @@ from . import views
 
 urlpatterns = [
     path('<int:product_type>', views.save_interests_info),
-    path('read/<int:product_type>', views.get_interests_info),
+    path('', views.get_interests_info),
 ]

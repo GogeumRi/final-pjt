@@ -55,6 +55,6 @@ def save_interests_info(request, product_type):
         return Response({'message': '적금 금리 수집 완료'}, status=201)
 
 @api_view(['GET'])
-def get_interests_info(request, product_type):
-    all_product = ProductSerializer(Product.objects.filter(prdt_type=product_type), many=True)
+def get_interests_info(request):
+    all_product = ProductSerializer(Product.objects.all(), many=True)
     return Response(all_product.data, status=200)

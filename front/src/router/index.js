@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import InterestView from '@/views/InterestView.vue'
-import InterestInfoView from '@/views/InterestInfoView.vue'
+import SpotView from '@/views/SpotView.vue'
 import SignupView from '../views/SignupView.vue'
 import SigninView from '../views/SignInView.vue'
 import ArticleList from '../views/ArticleList.vue'
 import ArticleCreateView from '../views/ArticleCreateView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,10 +22,9 @@ const router = createRouter({
       component: InterestView,
     },
     {
-      path: '/interest/:info',
-      name: 'interest-info',
-      component: InterestView,
-      props: true
+      path: '/spot',
+      name: 'spot',
+      component: SpotView,
     },
     {
       path: '/signup',
