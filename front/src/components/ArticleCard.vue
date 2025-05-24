@@ -1,23 +1,36 @@
 <template>
-<div class="article-card">
+<div v-if="article" class="article-card">
     <h3>{{ article.title }}</h3>
     <p>작성자: {{ article.user }}</p>
-    <p>{{ article.content }}</p>
+    <p v-html="article.content"></p>
     <RouterLink :to="`/articles/${article.id}`" class="detail-link">상세 페이지</RouterLink>
+    <button @click="articleStore.likeArticle(article.id)">
+        <div v-if="article.is_liked">
+            ❤️ 취소 ({{ article.like_count }})
+        </div>
+        <div v-else>
+            ❤️ ({{ article.like_count }})
+        </div>
+    </button>
 
 </div>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import axios from 'axios'
-import { useAuthStore } from '@/stores/auth'
+import { useArticleStore } from '@/stores/article'
 import { computed } from 'vue'
 
+const articleStore = useArticleStore()
+// console.log(articleStore.articles)
 const props = defineProps({
-    article: Object,
+    articleId: Number,
 })
 
+const article = computed(() => {
+    return articleStore.articles.find((article) => article.id === props.articleId)
+})
+article.value.content = article.value.content.replace(/(?:\r\n|\r|\n)/g, '<br />')
 </script>
 
 <style scoped>
