@@ -18,6 +18,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.save_interests_info),
-    path('read/', views.get_interests_info),
+    path('<int:product_type>', views.save_interests_info),
+    path('', views.get_interests_info),
 ]
