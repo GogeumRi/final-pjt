@@ -1,3 +1,4 @@
+// console.log('main.js loaded')
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 

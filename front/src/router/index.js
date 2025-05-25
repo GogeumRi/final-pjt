@@ -7,6 +7,8 @@ import SignupView from '../views/SignupView.vue'
 import SigninView from '../views/SignInView.vue'
 import ArticleList from '../views/ArticleList.vue'
 import ArticleCreateView from '../views/ArticleCreateView.vue'
+import ArticleDetailView from '../views/ArticleDetailView.vue'
+import ArticleEditView from '../views/ArticleEditView.vue'
 
 
 const router = createRouter({
@@ -51,6 +53,16 @@ const router = createRouter({
       path: '/articles/create',
       name: 'articleCreate',
       component: ArticleCreateView,
+    },
+    {
+      path: '/articles/:id',
+      name: 'articleDetail',
+      component: ArticleDetailView,
+    },
+    {
+      path: '/articles/:id/edit',
+      name: 'articleEdit',
+      component: ArticleEditView,
     },
   ],
 })

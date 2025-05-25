@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
+import { useArticleStore } from './article'
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref(null)
@@ -26,12 +27,10 @@ export const useAuthStore = defineStore('auth', () => {
 
     function setAuth(newToken) {
         token.value = newToken
-        // 이후 프로필 요청
-        axios.get('http://127.0.0.1:8000/accounts/user/', {
-            headers: {
-                Authorization: `Token ${newToken}`,
-            },
-        })
+        // 헤더에 토큰 추가
+        axios.defaults.headers.common['Authorization'] = `Token ${newToken}`
+        // 이후 프로필 가져오기
+        axios.get('http://127.0.0.1:8000/accounts/user/')
             .then((res) => {
                 user.value = res.data
                 getPrdt(res.data.pk)
@@ -65,7 +64,8 @@ export const useAuthStore = defineStore('auth', () => {
             .then(res => {
                 const token = res.data.key
                 setAuth(token)
-                return res
+                const articleStore = useArticleStore()
+                return articleStore.fetchArticles()
             })
             .catch(err => {
                 console.log(err)
@@ -77,6 +77,9 @@ export const useAuthStore = defineStore('auth', () => {
         token.value = null
         user.value = null
         prdt_list.value = []
+        axios.defaults.headers.common['Authorization'] = null
+        const articleStore = useArticleStore()
+        articleStore.articles = []
     }
 
     return {

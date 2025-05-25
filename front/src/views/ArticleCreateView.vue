@@ -40,47 +40,47 @@ const createArticle = () => {
 
 <style scoped>
 .write-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-  background-color: #fff;
+max-width: 600px;
+margin: 2rem auto;
+padding: 1.5rem;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+background-color: #fff;
 }
 
 .write-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+display: flex;
+flex-direction: column;
+gap: 1rem;
 }
 
 .input-title {
-  font-size: 1.2rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+font-size: 1.2rem;
+padding: 0.75rem 1rem;
+border-radius: 8px;
+border: 1px solid #ccc;
 }
 
 .input-content {
-  min-height: 150px;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  resize: vertical;
+min-height: 150px;
+padding: 1rem;
+border-radius: 8px;
+border: 1px solid #ccc;
+resize: vertical;
 }
 
 .btn-submit {
-  background-color: #4f46e5; /* Indigo-600 */
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
+background-color: #4f46e5; /* Indigo-600 */
+color: white;
+font-weight: 600;
+padding: 0.75rem 1rem;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+transition: background-color 0.25s ease;
 }
 
 .btn-submit:hover {
-  background-color: #4338ca; /* Indigo-700 */
+background-color: #4338ca; /* Indigo-700 */
 }
 </style>

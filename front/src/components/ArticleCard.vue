@@ -1,23 +1,53 @@
 <template>
-<div class="article-card">
+<div v-if="article" class="article-card">
     <h3>{{ article.title }}</h3>
     <p>작성자: {{ article.user }}</p>
-    <p>{{ article.content }}</p>
+    <p class="article-content" v-html="htmlContent"></p>
     <RouterLink :to="`/articles/${article.id}`" class="detail-link">상세 페이지</RouterLink>
+    <div class="d-flex align-items-center justify-content-between mt-3">
 
+    <p class="mb-0">
+        좋아요: <strong>{{ article.like_count }}</strong>
+    </p>
+
+    <button
+        v-if="authStore.isAuthenticated"
+        @click="onToggleLike"
+        :class="[
+        'btn btn-sm d-flex align-items-center',
+        article.is_liked ? 'btn-danger' : 'btn-outline-secondary'
+        ]"
+    >
+        <i
+        :class="[
+            'me-1',
+            article.is_liked ? 'fas fa-heart' : 'far fa-heart'
+        ]"
+        ></i>
+        <span>{{ article.is_liked ? '취소' : '' }}</span>
+    </button>
+</div>
 </div>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import axios from 'axios'
-import { useAuthStore } from '@/stores/auth'
+import { useArticleStore } from '@/stores/article'
 import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
+const articleStore = useArticleStore()
+// console.log(articleStore.articles)
 const props = defineProps({
     article: Object,
 })
-
+const htmlContent = computed(() => {
+    return props.article.content.replace(/(?:\r\n|\r|\n)/g, '<br />')
+})
+const onToggleLike = () => {
+    articleStore.likeArticle(props.article.id)
+}
 </script>
 
 <style scoped>
@@ -32,6 +62,10 @@ transition: box-shadow 0.3s ease;
 
 .article-card:hover {
 box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
+}
+
+.article-content {
+    white-space: pre-wrap;
 }
 
 .title {
