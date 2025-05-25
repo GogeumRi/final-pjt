@@ -4,15 +4,13 @@
     <hr>
       <h5>금 / 은 가격 변동</h5>
       <hr>
-        <article class="container">
-            
-        </article>
+        <SpotCondition />
   </main>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-
+import SpotCondition from '@/components/SpotCondition.vue'
 
 </script>
 

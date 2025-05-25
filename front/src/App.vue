@@ -4,6 +4,7 @@
       <RouterLink to="/">홈</RouterLink> |
       <RouterLink :to="{ name: 'interest' }">금리비교</RouterLink> |
       <RouterLink :to="{ name: 'spot' }">현물비교</RouterLink> |
+      <RouterLink :to="{ name: 'video' }">주식정보</RouterLink> |
       <RouterLink to="/signup">회원가입</RouterLink> |
       <RouterLink to="/signin" v-if="!isLoggedIn">로그인</RouterLink>
       <button @click="logout" v-else>로그아웃</button>
