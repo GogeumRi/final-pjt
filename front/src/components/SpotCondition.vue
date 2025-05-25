@@ -28,28 +28,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import Data from '@/metal_prices.json'
 
 const chartCanvas = ref(null)
 let lineChart = null
 const rawData = ref(null)
-
+let labels = null
 const selectedMetal = ref('gold')
-const startDate = ref('')
-const endDate = ref('')
+const startDate = ref(null)
+const endDate = ref(null)
 const isValidRange = ref(true)
 
-onMounted(async () => {
-  const res = await fetch('/metal_prices.json')
-  rawData.value = await res.json()
-
-  const labels = rawData.value.labels
+onMounted(() => {
+  rawData.value = Data
+  labels = rawData.value.labels
   startDate.value = labels[0]
   endDate.value = labels[labels.length - 1]
-
   updateChart()
 })
-
 const isGold = ref(true)
 
 const selectGold = (() => {
@@ -67,7 +64,7 @@ watch([startDate, endDate], ([newStart, newEnd]) => {
   updateChart()
 })
 
-const updateChart = function() {
+function updateChart() {
   const { labels, datasets } = rawData.value
   isValidRange.value = true
 

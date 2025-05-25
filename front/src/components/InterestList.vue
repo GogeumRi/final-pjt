@@ -141,11 +141,11 @@ const Join = function () {
         },
     })
     .then(res => {
-        swal('금융 상품 페이지','상품 가입 완료')
+        swal('금융 상품 페이지','상품 가입 완료', 'success')
         auth.joinPrdt(wantProduct)
     })
     .catch(err => {
-        swal('금융 상품 페이지','가입에 실패하였습니다. 다시 시도해 주세요.')
+        swal('금융 상품 페이지','가입에 실패하였습니다. 다시 시도해 주세요.', 'error')
         console.log(err)
     })
 }
@@ -163,11 +163,11 @@ const disJoin = function () {
         },
     })
     .then(res => {
-        swal('금융 상품 페이지','상품 가입 취소 완료')
+        swal('금융 상품 페이지','상품 가입 취소 완료', 'success')
         auth.disjoinPrdt(wantProduct)
     })
     .catch(err => {
-        swal('금융 상품 페이지','취소에 실패하였습니다. 다시 시도해 주세요.')
+        swal('금융 상품 페이지','취소에 실패하였습니다. 다시 시도해 주세요.', 'error')
         console.log(err)
     })
 }
