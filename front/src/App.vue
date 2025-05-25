@@ -2,7 +2,9 @@
   <header>
     <nav>
       <RouterLink to="/">홈</RouterLink> |
-      <RouterLink :to="{ name: 'interest-info' }"><button class="btn btn-primary mx-3">금리비교</button></RouterLink>
+      <RouterLink :to="{ name: 'interest' }">금리비교</RouterLink> |
+      <RouterLink :to="{ name: 'spot' }">현물비교</RouterLink> |
+      <RouterLink :to="{ name: 'video' }">주식정보</RouterLink> |
       <RouterLink to="/signup">회원가입</RouterLink> |
       <RouterLink to="/signin" v-if="!isLoggedIn">로그인</RouterLink>
       <button @click="logout" v-else>로그아웃</button>
@@ -19,6 +21,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useInterestStore } from '@/stores/interest.js'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -27,6 +30,9 @@ const logout = () => {
   authStore.logout()
   router.push('/')
 }
+
+const interestStore = useInterestStore()
+interestStore.getAll()
 </script>
 
 <style scoped>
