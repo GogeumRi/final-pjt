@@ -13,7 +13,7 @@ from .serializers import ArticleSerializer, CommentSerializer
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
-        articles = get_list_or_404(Article)
+        articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True, context={'request': request})
         return Response(serializer.data)
     elif request.method == 'POST':

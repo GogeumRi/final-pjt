@@ -39,11 +39,19 @@ onMounted(() => {
 const editArticle = () => {
     const articleId = route.params.id
     const updatedArticle = {
-        title: title.value,
-        content: content.value
+        title: form.value.title,
+        content: form.value.content,
     }
     articleStore.updateArticle(articleId, updatedArticle)
-    router.push(`/articles/${articleId}`)
+    .then(() => {
+        articleStore.fetchArticles()
+    })
+    .then(() => {
+        router.push(`/articles/${articleId}`)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
 }
 
 </script>
