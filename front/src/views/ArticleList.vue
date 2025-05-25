@@ -2,7 +2,7 @@
     <div>
         <h1>게시글 목록</h1>
         <ArticleCard
-        v-for="article in articleStore.articles" :key="article.id" :articleId="article.id" />
+        v-for="article in articleStore.articles" :key="article.id" :article="article" />
     </div>
 
 </template>
@@ -15,7 +15,9 @@ import ArticleCard from '@/components/ArticleCard.vue'
 const articleStore = useArticleStore()
 
 onMounted(() => {
-    articleStore.fetchArticles()
+    if (articleStore.articles.length === 0) {
+        articleStore.fetchArticles()
+    }
 })
 </script>
 

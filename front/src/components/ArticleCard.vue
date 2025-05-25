@@ -2,9 +2,9 @@
 <div v-if="article" class="article-card">
     <h3>{{ article.title }}</h3>
     <p>작성자: {{ article.user }}</p>
-    <p v-html="article.content"></p>
+    <p class="article-content" v-html="htmlContent"></p>
     <RouterLink :to="`/articles/${article.id}`" class="detail-link">상세 페이지</RouterLink>
-    <button @click="articleStore.likeArticle(article.id)">
+    <button @click="onToggleLike">
         <div v-if="article.is_liked">
             ❤️ 취소 ({{ article.like_count }})
         </div>
@@ -24,13 +24,14 @@ import { computed } from 'vue'
 const articleStore = useArticleStore()
 // console.log(articleStore.articles)
 const props = defineProps({
-    articleId: Number,
+    article: Object,
 })
-
-const article = computed(() => {
-    return articleStore.articles.find((article) => article.id === props.articleId)
+const htmlContent = computed(() => {
+    return props.article.content.replace(/(?:\r\n|\r|\n)/g, '<br />')
 })
-article.value.content = article.value.content.replace(/(?:\r\n|\r|\n)/g, '<br />')
+const onToggleLike = () => {
+    articleStore.likeArticle(props.article.id)
+}
 </script>
 
 <style scoped>
@@ -45,6 +46,10 @@ transition: box-shadow 0.3s ease;
 
 .article-card:hover {
 box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
+}
+
+.article-content {
+    white-space: pre-wrap;
 }
 
 .title {
