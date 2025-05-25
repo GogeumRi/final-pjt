@@ -4,6 +4,8 @@ import axios from 'axios'
 
 export const useInterestStore = defineStore('interest', () => {
     const allPrdt = ref([])
+    const DepositPrdts = ref([])
+    const SavingPrdts = ref([])
     const allDepositBank = ref([])
     const allSavingBank = ref([])
 
@@ -24,6 +26,7 @@ export const useInterestStore = defineStore('interest', () => {
                 allPrdt.value.push(product)
                 
                 if (product.prdt_type === 0) {
+                    DepositPrdts.value.push(product)
                     if (
                         allDepositBank.value.findIndex(
                             (bank) => bank.fin_co_no === product.fin_co_no
@@ -33,6 +36,7 @@ export const useInterestStore = defineStore('interest', () => {
                         {fin_co_no: product.fin_co_no, kor_co_nm: product.kor_co_nm}
                     )}
                 } else {
+                    SavingPrdts.value.push(product)
                     if (
                         allSavingBank.value.findIndex(
                             (bank) => bank.fin_co_no === product.fin_co_no
@@ -48,16 +52,7 @@ export const useInterestStore = defineStore('interest', () => {
             console.log(err)
         })
     }
-
-    const getDeposit = function() {
-        return allPrdt.value.filter((prdt) => prdt.prdt_type === 0)
-    }
-
-    const getSaving = function() {
-        return allPrdt.value.filter((prdt) => prdt.prdt_type === 1)
-    }
-
     return {
-        allPrdt, allDepositBank, allSavingBank, getAll, getDeposit, getSaving,
+        allPrdt, allDepositBank, allSavingBank, getAll, DepositPrdts, SavingPrdts
     }
 })

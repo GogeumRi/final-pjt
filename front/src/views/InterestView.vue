@@ -30,18 +30,23 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, watchEffect } from 'vue'
+import { ref } from 'vue'
 import InterestSearch from '@/components/InterestSearch.vue'
 import InterestList from '@/components/InterestList.vue'
 import { useInterestStore } from '@/stores/interest.js'
 
 const prdtType = ref(true)
 const resetKey = ref(0)
+const DepositList = ref([])
+const SavingList = ref([])
+const DepositBanks = ref([])
+const SavingBanks = ref([])
 const InterestStore = useInterestStore()
-const DepositList = ref(InterestStore.getDeposit())
-const SavingList = ref(InterestStore.getSaving())
-const DepositBanks = InterestStore.allDepositBank
-const SavingBanks = InterestStore.allSavingBank
+
+DepositList.value = InterestStore.DepositPrdts
+SavingList.value = InterestStore.SavingPrdts
+DepositBanks.value = InterestStore.allDepositBank
+SavingBanks.value = InterestStore.allSavingBank
 
 const DepositDesc = ref([false, false, false, false, false, false])
 const SavingDesc = ref([false, false, false, false, false, false])
