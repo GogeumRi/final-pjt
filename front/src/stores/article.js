@@ -37,9 +37,9 @@ export const useArticleStore = defineStore('article', {
             })
             .then((res) => {
                 const updated = res.data
-                console.log(updated)
+                // console.log(updated)
                 const index = this.articles.findIndex((article) => article.id === articleId)
-                console.log(index)
+                // console.log(index)
                 if (index !== -1) {
                     this.articles.splice(index, 1, updated)
                 }

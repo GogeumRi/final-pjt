@@ -4,15 +4,29 @@
     <p>작성자: {{ article.user }}</p>
     <p class="article-content" v-html="htmlContent"></p>
     <RouterLink :to="`/articles/${article.id}`" class="detail-link">상세 페이지</RouterLink>
-    <button @click="onToggleLike">
-        <div v-if="article.is_liked">
-            ❤️ 취소 ({{ article.like_count }})
-        </div>
-        <div v-else>
-            ❤️ ({{ article.like_count }})
-        </div>
-    </button>
+    <div class="d-flex align-items-center justify-content-between mt-3">
 
+    <p class="mb-0">
+        좋아요: <strong>{{ article.like_count }}</strong>
+    </p>
+
+    <button
+        v-if="authStore.isAuthenticated"
+        @click="onToggleLike"
+        :class="[
+        'btn btn-sm d-flex align-items-center',
+        article.is_liked ? 'btn-danger' : 'btn-outline-secondary'
+        ]"
+    >
+        <i
+        :class="[
+            'me-1',
+            article.is_liked ? 'fas fa-heart' : 'far fa-heart'
+        ]"
+        ></i>
+        <span>{{ article.is_liked ? '취소' : '' }}</span>
+    </button>
+</div>
 </div>
 </template>
 
@@ -20,7 +34,9 @@
 import { RouterLink } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
 import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
 const articleStore = useArticleStore()
 // console.log(articleStore.articles)
 const props = defineProps({
