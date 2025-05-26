@@ -46,7 +46,7 @@ const authStore = useAuthStore()
 
 onMounted(() => {
     console.log(route.params.id)
-    axios.get(`http://localhost:8000/api/v1/articles/${route.params.id}/`)
+    axios.get(`api/v1/articles/${route.params.id}/`)
         .then((res) => {
             console.log(res.data)
             article.value = res.data
@@ -62,7 +62,7 @@ const goToEdit = () => {
 }
 
 const deleteArticle = () => {
-    axios.delete(`http://localhost:8000/api/v1/articles/${article.value.id}/`, {
+    axios.delete(`api/v1/articles/${article.value.id}/`, {
         headers: {
             Authorization: `Token ${authStore.token}`,
         },

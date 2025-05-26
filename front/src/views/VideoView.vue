@@ -6,6 +6,7 @@
       <hr>
     <article>
     <form @submit.prevent="onSearch">
+      <div class="input-group mb-3">
         <input
             type="text"
             v-model="keyword"
@@ -13,40 +14,69 @@
             class="form-control"
         />
         <button type="submit" class="btn btn-primary">찾기</button>
-        </form>
-        <div class="video-list">
-        <div
-            v-for="video in video.videos"
-            :key="video.id.videoId"
-            class="video-card"
-            @click=""
-        >
+      </div>
+        
+    </form>
+    <div class="container d-flex flex-wrap justify-content-start">
+      <div 
+        v-for="video in video.videos"
+        :key="video.id.videoId"
+        @click.prevent="selectVideo(video)" 
+        data-bs-toggle="modal" 
+        data-bs-target="#exampleModal"
+        class="col-12 col-md-4 col-xl-3 p-2">
+          <div class="card h-100">
             <img
             :src="video.snippet.thumbnails.medium.url"
             :alt="video.snippet.title"
-            class="thumbnail"
+            class="card-img-top"
             />
-            <h3 class="text-body link-underline link-underline-opacity-0" v-html="video.snippet.title"></h3>
-            <p class="text-secondary link-underline link-underline-opacity-0">업로드일: {{ video.snippet.publishedAt.slice(0, 10) }}</p>
+            <div class="p-3">
+              <p class="card-title text-body" v-html="video.snippet.title"></p>
+              <p class="card-text text-secondary">업로드일: {{ video.snippet.publishedAt.slice(0, 10) }}</p>
+            </div>
+            </div>
         </div>
-        </div>
+    </div>
     </article>
   </main>
+
+   <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 v-html="selectedVideo.snippet.title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body container">
+          <p>업로드 날짜: {{ selectedVideo.snippet.publishedAt.slice(0, 10) }}</p>
+          <div class="ratio ratio-16x9">
+            <iframe :src="`https://youtube.com/embed/${selectedVideo.id.videoId}`" class="w-100 h-100"></iframe>
+          </div>
+          <p class="mt-3" v-html="selectedVideo.snippet.description"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+        </div>
+    </div>
+    </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useVideoStore } from '@/stores/video.js'
 const video = useVideoStore()
-
 const keyword = ref('')
+const selectedVideo = ref({id: {videoId: null}, snippet: {title: null, description: null, publishedAt: 'YYYY-MM-DDTHH:MM:SS'}})
 
 // 유튜브 API 키 (본인 키로 교체)
 const API_KEY = 'AIzaSyBSGBNUb8tA-V4ed92Qetl2ZB5ElbttjV4'
 
 async function onSearch() {
   if (!keyword.value.trim()) {
-    alert('검색어를 입력하세요')
+    swal('검색 실패', "검색어를 입력하세요.", 'warning')
     return
   }
   const query = encodeURIComponent(keyword.value.trim())
@@ -56,7 +86,6 @@ async function onSearch() {
     const res = await fetch(url)
     const data = await res.json()
     if (data.items) {
-      console.log(data.items)
       video.videos = []
       data.items.forEach(item => {
         if (item.id.videoId) {
@@ -65,87 +94,21 @@ async function onSearch() {
       })
     } else {
       video.videos = []
-      alert('검색 결과가 없습니다.')
+      swal('검색 실패', "검색 결과가 없습니다.", 'error');
     }
   } catch (error) {
-    alert('검색 중 오류가 발생했습니다.')
+    swal('검색 실패', "검색 도중 오류가 발생했습니다.", 'error');
     console.error(error)
   }
 }
+
+const selectVideo = function(video) {
+  selectedVideo.value = video
+  console.log(selectedVideo.value)
+}
+
 </script>
 
 <style scoped>
-.search-container {
-  padding: 1rem 2rem;
-}
-
-.search-form {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.search-input {
-  flex-grow: 1;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.search-button {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 0 1.5rem;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.search-button:hover {
-  background-color: #218838;
-}
-
-.video-list {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(1, 1fr); /* 기본: 모바일 */
-}
-
-@media (min-width: 576px) {
-  .video-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 768px) {
-  .video-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 992px) {
-  .video-list {
-    grid-template-columns: repeat(4, 1fr); /* 최대 4개 */
-  }
-}
-
-.video-card {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  overflow: hidden;
-  background: white;
-  color: black;
-  display: flex;
-  flex-direction: column;
-}
-
-.thumbnail {
-  width: 100%;
-  height: auto;
-  display: block;
-}
 
 </style>

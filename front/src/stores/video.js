@@ -8,27 +8,3 @@ export const useVideoStore = defineStore('video', () => {
     }
     return { videos, getVideo }
 })
-
-export const useSavedStore = defineStore('saved', () => {
-    const savedVideos = ref([])
-    const isSaved = (id) => {
-        if (savedVideos.value.find((video) => video.id === id)) {
-            return true
-        } else {
-            return false
-        }
-    }
-    return { savedVideos, isSaved }
-})
-
-export const useChannelSavedStore = defineStore('channelSaved', () => {
-    const savedChannels = ref([])
-    const isSaved = (id) => {
-        if (savedChannels.value.find((channel) => channel.id === id)) {
-            return true
-        } else {
-            return false
-        }
-    }
-    return { savedChannels, isSaved }
-})

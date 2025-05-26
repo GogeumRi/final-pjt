@@ -9,7 +9,7 @@ export const useCommentStore = defineStore('comment', {
     }),
     actions: {
         fetchComments(articleId) {
-            axios.get(`http://localhost:8000/api/v1/articles/${articleId}/comments/`)
+            axios.get(`api/v1/articles/${articleId}/comments/`)
             .then((res) => {
                 this.comments = res.data
             })
@@ -19,7 +19,7 @@ export const useCommentStore = defineStore('comment', {
         },
         createComment(articleId, commentData) {
             const authStore = useAuthStore()
-            axios.post(`http://localhost:8000/api/v1/articles/${articleId}/comments/`, commentData,
+            axios.post(`api/v1/articles/${articleId}/comments/`, commentData,
                 {  
                     headers: {
                         'Authorization': `Token ${authStore.token}`
@@ -35,7 +35,7 @@ export const useCommentStore = defineStore('comment', {
         },
         deleteComment(articleId, commentId) {
             const authStore = useAuthStore()
-            axios.delete(`http://localhost:8000/api/v1/articles/${articleId}/comments/${commentId}/`,
+            axios.delete(`api/v1/articles/${articleId}/comments/${commentId}/`,
                 {
                     headers: {
                         'Authorization': `Token ${authStore.token}`
@@ -52,7 +52,7 @@ export const useCommentStore = defineStore('comment', {
         likeComment(articleId, commentId) {
             const authStore = useAuthStore()
             // console.log(authStore.token)
-            axios.post(`http://localhost:8000/api/v1/articles/${articleId}/comments/${commentId}/like/`,
+            axios.post(`api/v1/articles/${articleId}/comments/${commentId}/like/`,
                 {},
                 {
                     headers: {

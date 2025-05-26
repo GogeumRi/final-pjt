@@ -1,40 +1,33 @@
 <template>
-  <article class="col-9">
-    <h2>{{ title ? '정기예금' : '적금' }}</h2>
-      <table class="table table-striped text-center">
-        <thead>
-            <tr>
-            <th scope="col">금융회사명</th>
-            <th scope="col">상품명</th>
-            <th scope="col">1개월<button class="btn btn-sm" @click="$emit('sortBy', 0)">{{ desc[0] ? "▼" : "▲" }}</button></th>
-            <th scope="col">3개월<button class="btn btn-sm" @click="$emit('sortBy', 1)">{{ desc[1] ? "▼" : "▲" }}</button></th>
-            <th scope="col">6개월<button class="btn btn-sm" @click="$emit('sortBy', 2)">{{ desc[2] ? "▼" : "▲" }}</button></th>
-            <th scope="col">12개월<button class="btn btn-sm" @click="$emit('sortBy', 3)">{{ desc[3] ? "▼" : "▲" }}</button></th>
-            <th scope="col">24개월<button class="btn btn-sm" @click="$emit('sortBy', 4)">{{ desc[4] ? "▼" : "▲" }}</button></th>
-            <th scope="col">36개월<button class="btn btn-sm" @click="$emit('sortBy', 5)">{{ desc[5] ? "▼" : "▲" }}</button></th>
-            </tr>
-        </thead>
-        <tbody v-for="product in products" :key="product.fin_prdt_nm">
-            <tr v-show="product.isShow">
-                <th scope="row">{{ product.kor_co_nm }}</th>
-                  <td>
-                    <a class='link-primary link-underline link-offset-2 link-underline-opacity-0' 
-                    @mouseover="underline" @mouseleave="clear" 
-                    @click.prevent="selectProduct(product)" 
-                    data-bs-toggle="modal" data-bs-target="#exampleModal">{{ product.fin_prdt_nm }}</a>
-                  </td>
-                <td v-for="intr in product.intrs">{{ intr }}</td>
-            </tr>
-        </tbody>
-      </table>
-  </article>
+    <article class="container">
+        <h5>가입한 상품 목록</h5>
+        <div v-if="JoinedPrdt.length === 0">
+        <p>가입 상품이 없어요...</p>
+      </div>
+      <div v-else>
+        <ul>
+            <li v-for="prdt in JoinedPrdt"
+            :key="prdt.fin_prdt_cd">
+                [{{ prdt.prdt_type === 0 ? '정기예금' : '적금' }}] {{ prdt.kor_co_nm }} - 
+                <a class='link-primary link-underline link-offset-2 link-underline-opacity-0' 
+                @mouseover="underline" @mouseleave="clear" 
+                @click.prevent="selectProduct(prdt)" 
+                data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    {{ prdt.fin_prdt_nm }}
+                </a>
+            </li>
+        </ul>
+        <h5>가입한 상품 금리</h5>
+        <canvas ref="chartCanvas"></canvas>
+      </div>
+    </article>
 
-  <!-- Modal -->
+      <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{ title ? '정기예금' : '적금' }} 상세</h5>
+            <h5 class="modal-title" id="exampleModalLabel">상세</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -88,28 +81,39 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            <div v-if="auth.token">
-                <button type="button" class="btn btn-danger" v-if="auth.prdt_list.includes(selectedProduct.fin_prdt_cd)" @click="disJoin">가입 취소</button>
+            <div v-if="authStore.token">
+                <button type="button" class="btn btn-danger" v-if="authStore.prdt_list.includes(selectedProduct.fin_prdt_cd)" @click="disJoin">가입 취소</button>
                 <button type="button" class="btn btn-primary" v-else @click="Join">상품 가입</button>
             </div>
         </div>
         </div>
     </div>
     </div>
-
 </template>
 
 <script setup>
-defineProps({
-    products: Object,
-    desc: Object,
-    title: Boolean,
+const props = defineProps({
+    joinedprdtid: Object,
 })
-defineEmits(['sortBy'])
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
-import { useAuthStore } from '@/stores/auth.js'
-const auth = useAuthStore()
+import { useAuthStore } from '@/stores/auth';
+import { useInterestStore } from '@/stores/interest';
+let lineChart = null
+const chartCanvas = ref(null)
+
+const JoinedId = props.joinedprdtid
+const authStore = useAuthStore()
+const interestStore = useInterestStore()
+const allPrdt = interestStore.allPrdt
+const JoinedPrdt = ref([])
+allPrdt.forEach((prdt) => {
+    JoinedId.forEach((id) => {
+        if (prdt.fin_prdt_cd === id) {
+            JoinedPrdt.value.push(prdt);
+        }
+    })
+})
 
 const selectedProduct = ref([])
 const selectProduct = (product) => {
@@ -117,24 +121,13 @@ const selectProduct = (product) => {
   product.spcl_cnd = product.spcl_cnd.replace(/(?:\r\n|\r|\n)/g, '<br />')
   selectedProduct.value = product
 }
-
-const underline = function () {
-    event.target.classList.remove('link-underline-opacity-0')
-    event.target.classList.add('link-underline-opacity-100')
-}
-
-const clear = function () {
-    event.target.classList.remove('link-underline-opacity-100')
-    event.target.classList.add('link-underline-opacity-0')
-}
-
 const Join = function () {
     const wantProduct = selectedProduct.value.fin_prdt_cd
     axios({
         method: 'POST',
         url: 'accounts/interest/join/',
         headers: {
-                Authorization: `Token ${auth.token}`,
+                Authorization: `Token ${authStore.token}`,
             },
         data: {
             fin_prdt_cd: wantProduct
@@ -142,7 +135,12 @@ const Join = function () {
     })
     .then(res => {
         swal('금융 상품 페이지','상품 가입 완료', 'success')
-        auth.joinPrdt(wantProduct)
+        authStore.joinPrdt(wantProduct)
+        allPrdt.forEach((prdt) => {
+            if (prdt.fin_prdt_cd === wantProduct) {
+                JoinedPrdt.value.push(prdt)
+            }
+        })
     })
     .catch(err => {
         swal('금융 상품 페이지','가입에 실패하였습니다. 다시 시도해 주세요.', 'error')
@@ -156,7 +154,7 @@ const disJoin = function () {
         method: 'POST',
         url: 'accounts/interest/disjoin/',
         headers: {
-                Authorization: `Token ${auth.token}`,
+                Authorization: `Token ${authStore.token}`,
             },
         data: {
             fin_prdt_cd: wantProduct
@@ -164,7 +162,14 @@ const disJoin = function () {
     })
     .then(res => {
         swal('금융 상품 페이지','상품 가입 취소 완료', 'success')
-        auth.disjoinPrdt(wantProduct)
+        authStore.disjoinPrdt(wantProduct)
+        for (let i = 0; i < JoinedPrdt.value.length; i++) {
+            if (JoinedPrdt.value[i].fin_prdt_cd === wantProduct) {
+                JoinedPrdt.value.splice(i, 1);
+                i--
+            }
+        }
+        console.log(JoinedPrdt.value)
     })
     .catch(err => {
         swal('금융 상품 페이지','취소에 실패하였습니다. 다시 시도해 주세요.', 'error')
@@ -172,10 +177,69 @@ const disJoin = function () {
     })
 }
 
+const InterestData = ref([[], [], []])
+console.log(JoinedPrdt.value)
+
+onMounted(() => {
+    JoinedPrdt.value.forEach((prdt) => {
+    InterestData.value[0].push(prdt.fin_prdt_nm)
+    InterestData.value[1].push(prdt.avg_intr)
+    InterestData.value[2].push(prdt.max_intr)
+})
+    updateChart()
+})
+
+watch(JoinedPrdt, (newArray) => {
+    InterestData.value = [[],[],[]]
+    newArray.forEach((prdt) => {
+    InterestData.value[0].push(prdt.fin_prdt_nm)
+    InterestData.value[1].push(prdt.avg_intr)
+    InterestData.value[2].push(prdt.max_intr)
+    })
+    updateChart()
+}, { deep: true })
+
+function updateChart() {
+    const chartData = {
+    labels: InterestData.value[0],
+    datasets: [
+      {
+        type: "bar",
+        label: "평균 금리",
+        data: InterestData.value[1],
+        backgroundColor: "#1423A3",
+        stack: "Stack 0",
+        barThickness: 28,
+        maxBarThickness: 20,
+      },
+      {
+        type: "bar",
+        label: "최고 우대금리",
+        data: InterestData.value[2],
+        backgroundColor: "#638AF4",
+        stack: "Stack 1",
+        barThickness: 28,
+        maxBarThickness: 20,
+      },
+    ]}
+    
+    if (lineChart) {
+      lineChart.destroy()
+    }
+
+    lineChart
+    lineChart = new Chart(chartCanvas.value, {
+      type: 'line',
+      data: chartData,
+    })
+}
+
+
+
 </script>
 
 <style scoped>
-  #wrap{
+ #wrap{
     position: relative; 
     display: inline-block;
   }
@@ -208,5 +272,4 @@ const disJoin = function () {
     border-bottom: 8px solid #646FD4; */
   } 
   #wrap:hover #tooltip{display: block;}
-
-</style>
+</style>  
