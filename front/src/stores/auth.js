@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
         // 헤더에 토큰 추가
         axios.defaults.headers.common['Authorization'] = `Token ${newToken}`
         // 이후 프로필 가져오기
-        axios.get('http://127.0.0.1:8000/accounts/user/')
+        axios.get('accounts/user/')
             .then((res) => {
                 user.value = res.data
                 getPrdt(res.data.pk)
@@ -42,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     function getPrdt() {
-        return axios.get("http://127.0.0.1:8000/accounts/interest/", {
+        return axios.get("accounts/interest/", {
             headers: {
                 Authorization: `Token ${token.value}`
             }
@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     function login(username, password) {
-        return axios.post('http://127.0.0.1:8000/accounts/login/', {
+        return axios.post('accounts/login/', {
             username,
             password,
         })

@@ -22,7 +22,7 @@ const title = ref('')
 const content = ref('')
 
 const createArticle = () => {
-    axios.post('http://localhost:8000/api/v1/articles/', {
+    axios.post('api/v1/articles/', {
         title: title.value,
         content: content.value,
     }, {
