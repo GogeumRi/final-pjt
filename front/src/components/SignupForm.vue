@@ -44,7 +44,7 @@ const signup = () => {
 
     axios({
         method: 'POST',
-        url: 'http://localhost:8000/accounts/signup/',
+        url: 'accounts/signup/',
         data: {
             username: username.value,
             password1: password1.value,

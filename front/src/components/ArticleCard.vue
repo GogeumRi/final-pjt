@@ -3,7 +3,9 @@
     <h3>{{ article.title }}</h3>
     <p>작성자: {{ article.user }}</p>
     <p class="article-content" v-html="htmlContent"></p>
+    <KeepAlive>
     <RouterLink :to="`/articles/${article.id}`" class="detail-link">상세 페이지</RouterLink>
+    </KeepAlive>
     <div class="d-flex align-items-center justify-content-between mt-3">
 
     <p class="mb-0">

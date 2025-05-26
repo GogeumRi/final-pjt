@@ -10,7 +10,7 @@ export const useInterestStore = defineStore('interest', () => {
     const allSavingBank = ref([])
 
     const getAll = function () {
-        axios.get(`http://127.0.0.1:8000/api/interest/`)
+        axios.get(`api/interest/`)
         .then(res => {
             res.data.forEach(product => {
                 let intrs = ['-', '-', '-', '-', '-', '-']

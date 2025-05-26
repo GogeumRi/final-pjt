@@ -8,7 +8,7 @@ export const useArticleStore = defineStore('article', {
     }),
     actions: {
         fetchArticles() {
-            axios.get('http://localhost:8000/api/v1/articles/')
+            axios.get('api/v1/articles/')
             .then((res) => {
                 this.articles = res.data
             })
@@ -20,7 +20,7 @@ export const useArticleStore = defineStore('article', {
             return this.articles.find((article) => article.id === articleId)
         },
         updateArticle(articleId, updatedArticle) {
-            return axios.put(`http://localhost:8000/api/v1/articles/${articleId}/`, updatedArticle)
+            return axios.put(`api/v1/articles/${articleId}/`, updatedArticle)
             .then((res) => {
                 const index = this.articles.findIndex((article) => article.id === articleId)
                 this.articles[index] = res.data
@@ -30,7 +30,7 @@ export const useArticleStore = defineStore('article', {
             const authStore = useAuthStore()
             axios({
                 method: 'post',
-                url: `http://localhost:8000/api/v1/articles/${articleId}/like/`,
+                url: `api/v1/articles/${articleId}/like/`,
                 headers: {
                     Authorization: `Token ${authStore.token}`,
                 },

@@ -132,7 +132,7 @@ const Join = function () {
     const wantProduct = selectedProduct.value.fin_prdt_cd
     axios({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/accounts/interest/join/',
+        url: 'accounts/interest/join/',
         headers: {
                 Authorization: `Token ${auth.token}`,
             },
@@ -154,7 +154,7 @@ const disJoin = function () {
     const wantProduct = selectedProduct.value.fin_prdt_cd
     axios({
         method: 'POST',
-        url: 'http://127.0.0.1:8000/accounts/interest/disjoin/',
+        url: 'accounts/interest/disjoin/',
         headers: {
                 Authorization: `Token ${auth.token}`,
             },
