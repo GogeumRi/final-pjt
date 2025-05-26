@@ -1,5 +1,6 @@
 <template>
     <div class="write-container">
+        <button @click="goBack" class="btn btn-secondary mb-3">뒤로가기</button>
         <h1>게시글 작성</h1>
             <form @submit.prevent="createArticle" class="write-form">
                 <input type="text" v-model="title" placeholder="제목" required class="input-title" />
@@ -18,11 +19,15 @@ import { useRouter } from 'vue-router'
 const authStore = useAuthStore()
 const router = useRouter()
 
+const goBack = () => {
+    router.back()
+}
+
 const title = ref('')
 const content = ref('')
 
 const createArticle = () => {
-    axios.post('http://localhost:8000/api/v1/articles/', {
+    axios.post('api/v1/articles/', {
         title: title.value,
         content: content.value,
     }, {

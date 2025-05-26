@@ -1,7 +1,8 @@
 <template>
-    <div class="row align-items-center mb-3">
-        <label class="col-sm-2 col-form-label">{{ field.label }}</label>
-        <div class="col-sm-6">
+    <article class="container p-3">
+    <div class="mb-3 input-group">
+        <label class="col-4 col-form-label text-center">{{ field.label }}</label>
+        <div class="col-6">
         <!-- text input -->
         <input
             v-if="field.type === 'text'"
@@ -17,13 +18,12 @@
             class="form-control"
         />
         </div>
-        <div class="col-sm-4 text-end">
             <button
             class="btn btn-sm btn-success"
             @click="saveEdit"
         >저장</button>
-        </div>
     </div>
+    </article>
 </template>
 
 <script setup>

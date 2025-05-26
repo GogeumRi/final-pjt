@@ -1,5 +1,6 @@
 <template>
     <div class="write-container">
+        <button @click="goBack" class="btn btn-secondary mb-3">뒤로가기</button>
         <h1>게시글 수정</h1>
         <form @submit.prevent="editArticle" class="write-form">
             <input type="text" id="title" v-model="form.title" required class="input-title">
@@ -18,6 +19,11 @@ import axios from 'axios'
 const route = useRoute()
 const router = useRouter()
 const articleStore = useArticleStore()
+
+const goBack = () => {
+    router.back()
+}
+
 const form = ref({
     title: '',
     content: ''
@@ -26,7 +32,7 @@ const form = ref({
 
 onMounted(() => {
     const articleId = Number(route.params.id)
-    axios.get(`http://localhost:8000/api/v1/articles/${articleId}/`)
+    axios.get(`api/v1/articles/${articleId}/`)
     .then((res) => {
         form.value.title = res.data.title
         form.value.content = res.data.content

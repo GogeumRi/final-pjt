@@ -8,7 +8,7 @@ export const useProfileStore = defineStore('profile', {
   actions: {
     fetchProfile() {
       return axios
-        .get('http://localhost:8000/accounts/profile/')
+        .get('accounts/profile/')
         .then(res => {
           this.profile = res.data
           return res.data
@@ -16,7 +16,7 @@ export const useProfileStore = defineStore('profile', {
     },
     updateProfile(data) {
       return axios
-        .put('http://localhost:8000/accounts/profile/', data)
+        .put('accounts/profile/', data)
         .then(res => {
           this.profile = res.data
           return res.data
