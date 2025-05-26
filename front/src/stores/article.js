@@ -20,7 +20,7 @@ export const useArticleStore = defineStore('article', {
             return this.articles.find((article) => article.id === articleId)
         },
         updateArticle(articleId, updatedArticle) {
-            axios.put(`http://localhost:8000/api/v1/articles/${articleId}/`, updatedArticle)
+            return axios.put(`http://localhost:8000/api/v1/articles/${articleId}/`, updatedArticle)
             .then((res) => {
                 const index = this.articles.findIndex((article) => article.id === articleId)
                 this.articles[index] = res.data

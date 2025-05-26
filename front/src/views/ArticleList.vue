@@ -1,9 +1,14 @@
 <template>
-    <div>
-        <h1>게시글 목록</h1>
+    <main class="container">
+    <h1 class="my-3">게시글</h1>
+    <hr>
+    <article>
+        <h5>게시글 목록</h5>
+        <hr>
         <ArticleCard
         v-for="article in articleStore.articles" :key="article.id" :article="article" />
-    </div>
+    </article>
+    </main>
 
 </template>
 
