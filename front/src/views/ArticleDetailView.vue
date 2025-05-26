@@ -1,5 +1,6 @@
 <template>
     <div class="container my-5" v-if="article">
+    <button @click="goBack" class="btn btn-outline-primary mb-3">게시글 목록</button>
         <div class="mb-4">
             <header class="mb-5 text-center">
                 <h1 class="display-2 fw-bold text-primary">{{ article.title }}</h1>
@@ -30,7 +31,7 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
@@ -69,6 +70,10 @@ const deleteArticle = () => {
         .then(() => {
             router.push('/articles')
         })
+}
+
+const goBack = () => {
+    router.push('/articles')
 }
 </script>
 

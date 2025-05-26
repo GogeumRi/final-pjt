@@ -9,12 +9,10 @@
       <RouterLink to="/signin" v-if="!isLoggedIn">로그인</RouterLink>
       <button @click="logout" v-else>로그아웃</button>
       <RouterLink to="/articles">게시판</RouterLink>
-      <RouterLink to="/articles/create" v-if="isLoggedIn">게시글 작성</RouterLink>
       <RouterLink to="/profile" v-if="isLoggedIn">프로필</RouterLink>
     </nav>
   </header>
-
-  <RouterView />
+    <RouterView />
 </template>
 
 <script setup>

@@ -66,5 +66,25 @@ export const useCommentStore = defineStore('comment', {
                 console.log(err)
             })
         },
+        editComment(articleId, commentId, newContent) {
+            const authStore = useAuthStore()
+            return axios.put(`http://localhost:8000/api/v1/articles/${articleId}/comments/${commentId}/edit/`,
+                {
+                    content: newContent
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${authStore.token}`
+                    }
+                }
+            )
+            .then((res) => {
+                this.comments = this.comments.map((comment) => comment.id === commentId ? res.data : comment)
+                return res.data
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        },
     },
 })
