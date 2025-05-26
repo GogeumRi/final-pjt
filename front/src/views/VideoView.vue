@@ -18,15 +18,14 @@
         
     </form>
     <div class="container d-flex flex-wrap justify-content-start">
-        <div
-            v-for="video in video.videos"
-            :key="video.id.videoId"
-            class="p-2"
-             @click.prevent="selectVideo(video)" 
-             data-bs-toggle="modal" 
-             data-bs-target="#exampleModal"
-        >
-          <div class="card" style="width: 250px; height: 320px">
+      <div 
+        v-for="video in video.videos"
+        :key="video.id.videoId"
+        @click.prevent="selectVideo(video)" 
+        data-bs-toggle="modal" 
+        data-bs-target="#exampleModal"
+        class="col-12 col-md-4 col-xl-3 p-2">
+          <div class="card h-100">
             <img
             :src="video.snippet.thumbnails.medium.url"
             :alt="video.snippet.title"
@@ -87,7 +86,6 @@ async function onSearch() {
     const res = await fetch(url)
     const data = await res.json()
     if (data.items) {
-      console.log(data.items)
       video.videos = []
       data.items.forEach(item => {
         if (item.id.videoId) {
