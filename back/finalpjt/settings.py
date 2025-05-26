@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m9i*(v@!=*v_-*e4bugi$-t*qj787bjiz65hkb$7+dng-jvghr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -152,8 +152,6 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
-}
+REST_AUTH_REGISTER_SERIALIZER = 'accounts.serializers.CustomRegisterSerializer'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

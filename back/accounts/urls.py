@@ -18,7 +18,8 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.get_fin_prdt),
-    path('join/', views.join_fin_prdt),
-    path('disjoin/', views.disjoin_fin_prdt),
+    path('interest/', views.get_fin_prdt),
+    path('interest/join/', views.join_fin_prdt),
+    path('interest/disjoin/', views.disjoin_fin_prdt),
+    path('profile/', views.profile_view),
 ]

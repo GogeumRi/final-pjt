@@ -3,13 +3,14 @@ import HomeView from '../views/HomeView.vue'
 import InterestView from '@/views/InterestView.vue'
 import SpotView from '@/views/SpotView.vue'
 import VideoView from '@/views/VideoView.vue'
+import MapView from '@/views/MapView.vue'
 import SignupView from '../views/SignupView.vue'
 import SigninView from '../views/SignInView.vue'
 import ArticleList from '../views/ArticleList.vue'
 import ArticleCreateView from '../views/ArticleCreateView.vue'
 import ArticleDetailView from '../views/ArticleDetailView.vue'
 import ArticleEditView from '../views/ArticleEditView.vue'
-
+import ProfileView from '../views/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/video',
       name: 'video',
       component: VideoView,
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: MapView,
     },
     {
       path: '/signup',
@@ -63,6 +69,11 @@ const router = createRouter({
       path: '/articles/:id/edit',
       name: 'articleEdit',
       component: ArticleEditView,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
     },
   ],
 })
