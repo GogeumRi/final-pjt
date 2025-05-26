@@ -4,7 +4,7 @@
         <div v-if="JoinedPrdt.length === 0">
         <p>가입 상품이 없어요...</p>
       </div>
-      <div v-else>
+      <div v-else class="mb-5">
         <ul>
             <li v-for="prdt in JoinedPrdt"
             :key="prdt.fin_prdt_cd">
