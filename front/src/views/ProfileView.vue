@@ -1,66 +1,80 @@
 <template>
-    <div class="container my-5">
-      <h1>내 프로필</h1>
-      <form @submit.prevent="onSubmit" class="row g-3">
-        <div class="col-md-6">
-          <label>Email</label>
-          <input v-model="form.email" type="email" class="form-control" />
-        </div>
-        <div class="col-md-6">
-          <label>Nickname</label>
-          <input v-model="form.nickname" type="text" class="form-control" />
-        </div>
-        <div class="col-md-4">
-          <label>Age</label>
-          <input v-model.number="form.age" type="number" class="form-control" />
-        </div>
-        <div class="col-md-4">
-          <label>Current Asset</label>
-          <input
-            v-model.number="form.current_asset"
-            type="number" step="0.01"
-            class="form-control"
-          />
-        </div>
-        <div class="col-md-4">
-          <label>Wage</label>
-          <input
-            v-model.number="form.wage"
-            type="number" step="0.01"
-            class="form-control"
-          />
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">저장</button>
-        </div>
-      </form>
-    </div>
-  </template>
-  
-  <script setup>
-  import { reactive, onMounted } from 'vue'
-  import { useProfileStore } from '@/stores/profile'
-  
-  const store = useProfileStore()
-  
-  const form = reactive({
-    email: '',
-    nickname: '',
-    age: null,
-    current_asset: null,
-    wage: null,
+  <div>
+    <h1>내 프로필</h1>
+    <ProfileEdit 
+    v-for='field in fields'
+    :key='field.key'
+    :field='field'
+    :value='profile[field.key]'
+    @save="onSave"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive, onMounted } from 'vue'
+import { useProfileStore } from '@/stores/profile'
+import ProfileEdit from '@/components/ProfileEdit.vue'
+
+const profileStore = useProfileStore()
+const profile = reactive({
+  nickname: '',
+  age: '',
+  current_assets: '',
+  wage: '',
+  subscribed_products: [],
+  new_subscribed_products: [],
+})
+
+const fields = [
+  {
+    label: '닉네임',
+    key: 'nickname',
+    type: 'text',
+  },
+  {
+    label: '나이',
+    key: 'age',
+    type: 'number',
+  },
+  {
+    label: '현재 자산',
+    key: 'current_assets',
+    type: 'number',
+  },
+  {
+    label: '월급',
+    key: 'wage',
+    type: 'number',
+  },
+  {
+    label: '구독 상품',
+    key: 'subscribed_products',
+    type: 'array',
+  },
+  {
+    label: '새로운 구독 상품',
+    key: 'new_subscribed_products',
+    type: 'array',
+  },
+]
+
+onMounted(async () => {
+  const data = await profileStore.fetchProfile()
+  Object.assign(profile, data)
+})
+
+const onSave = function({key, value}) {
+  profileStore.updateProfile({[key]: value})
+  .then((res) => {
+    profile[key] = res[key]
   })
-  
-  onMounted(async () => {
-    const data = await store.fetchProfile()
-    Object.assign(form, data)
+  .catch((err) => {
+    console.error(err)
   })
-  
-  function onSubmit() {
-    store
-      .updateProfile(form)
-      .then(() => alert('프로필이 저장되었습니다!'))
-      .catch(err => console.error(err))
-  }
-  </script>
-  
+}
+</script>
+
+<style scoped>
+
+</style>

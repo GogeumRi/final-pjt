@@ -67,9 +67,9 @@ def profile_view(request):
     if request.method == 'GET':
         serializer = CustomUserProfileSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    serializer = CustomUserProfileSerializer(user, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
+    elif request.method == 'PUT':
+        serializer = CustomUserProfileSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
