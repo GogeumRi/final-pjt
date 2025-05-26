@@ -66,7 +66,6 @@
 </div>
   </article>
 </template>
-
 <script setup>
 import { ref, watch } from 'vue'
 import mapData from '@/map_data.json'
