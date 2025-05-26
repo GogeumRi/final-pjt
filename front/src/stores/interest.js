@@ -15,13 +15,22 @@ export const useInterestStore = defineStore('interest', () => {
             res.data.forEach(product => {
                 let intrs = ['-', '-', '-', '-', '-', '-']
                 const order = ['1', '3', '6', '12', '24', '36']
+
+                let cnt = 0
+                let avg_intr = 0
+                let max_intr = 0
                 product.options.forEach(option => {
                     const idx = order.indexOf(option.save_trm)
                     if (idx > -1) {
                         intrs[idx] = option.intr_rate
+                        cnt++
+                        avg_intr += option.intr_rate
+                        max_intr += option.intr_rate2
                     }
                 })
                 product['intrs'] = intrs
+                product['avg_intr'] = avg_intr / cnt
+                product['max_intr'] = max_intr / cnt
                 product['isShow'] = true
                 allPrdt.value.push(product)
                 
