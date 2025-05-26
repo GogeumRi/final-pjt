@@ -22,8 +22,6 @@ const profile = reactive({
   age: '',
   current_assets: '',
   wage: '',
-  subscribed_products: [],
-  new_subscribed_products: [],
 })
 
 const fields = [
@@ -46,16 +44,6 @@ const fields = [
     label: '월급',
     key: 'wage',
     type: 'number',
-  },
-  {
-    label: '구독 상품',
-    key: 'subscribed_products',
-    type: 'array',
-  },
-  {
-    label: '새로운 구독 상품',
-    key: 'new_subscribed_products',
-    type: 'array',
   },
 ]
 
