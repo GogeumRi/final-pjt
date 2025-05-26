@@ -86,5 +86,16 @@ def comment_like(request, article_id, comment_id):
         comment.like_users.add(request.user)
     serializer = CommentSerializer(comment, context={'request': request})
     return Response(serializer.data)    
-    
-    
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def comment_edit(request, article_id, comment_id):
+    comment = get_object_or_404(Comment, article_id=article_id, id=comment_id)
+    if request.user != comment.user:
+        return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_401_UNAUTHORIZED)
+    serializer = CommentSerializer(comment, data=request.data, partial=True, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

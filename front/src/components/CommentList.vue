@@ -1,38 +1,75 @@
 <template>
-    <div class="comment-list">
-      <h2 class="mb-4">댓글 목록</h2>
-      <ul class="list-group">
-        <li
-          v-for="comment in commentStore.comments"
-          :key="comment.id"
-          class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start"
-        >
-          <div>
-            <p class="mb-1"><strong>작성자:</strong> {{ comment.user }}</p>
+  <div class="comment-list">
+    <h2 class="mb-4">댓글 목록</h2>
+    <ul class="list-group">
+      <li
+        v-for="comment in commentStore.comments"
+        :key="comment.id"
+        class="list-group-item d-flex flex-column flex-md-row align-items-start"
+      >
+        <!-- flex-fill lets this div expand to fill available width -->
+        <div class="flex-fill me-md-3">
+          <p class="mb-1"><strong>작성자:</strong> {{ comment.user }}</p>
+          <div v-if="!comment.isEditing">
             <p class="mb-2"><strong>댓글:</strong> {{ comment.content }}</p>
-            <small class="text-muted">{{ comment.created_at }}</small>
           </div>
-          <div class="mt-3 mt-md-0 d-flex gap-2">
-            <button
-              v-if="authStore.isAuthenticated"
-              @click="commentStore.likeComment(props.articleId, comment.id)"
-              class="btn btn-sm btn-outline-primary"
-            >
-              <span v-if="comment.is_liked">좋아요 취소 ({{ comment.like_count }})</span>
-              <span v-else>좋아요 ({{ comment.like_count }})</span>
-            </button>
-            <button
-              v-if="authStore.user && comment.user === authStore.user.username"
-              @click="commentStore.deleteComment(props.articleId, comment.id)"
-              class="btn btn-sm btn-outline-danger"
-            >
-              삭제
-            </button>
+          <div v-else>
+            <textarea
+              v-model="comment.editedContent"
+              class="form-control w-100"
+              rows="4"
+            ></textarea>
           </div>
-        </li>
-      </ul>
-    </div>
-  </template>
+
+          <small class="text-muted">{{ comment.created_at }}</small>
+        </div>
+
+        <div class="mt-3 mt-md-0 d-flex gap-2">
+          <button
+            v-if="authStore.user && comment.user === authStore.user.username && !comment.isEditing"
+            @click='() => {
+              comment.isEditing = true
+              comment.editedContent = comment.content
+            }'
+            class="btn btn-sm btn-outline-secondary"
+          >
+            수정
+          </button>
+          <button
+            v-else-if="comment.isEditing"
+            @click='() => {
+              commentStore.editComment(props.articleId, comment.id, comment.editedContent)
+              .then(() => comment.isEditing = false)
+            }'
+            class="btn btn-sm btn-success"
+          >
+            저장
+          </button>
+          <button
+            v-if="authStore.isAuthenticated"
+            @click="commentStore.likeComment(props.articleId, comment.id)"
+            class="btn btn-sm btn-outline-primary"
+          >
+            <span v-if="comment.is_liked">
+              좋아요 취소 ({{ comment.like_count }})
+            </span>
+            <span v-else>
+              좋아요 ({{ comment.like_count }})
+            </span>
+          </button>
+          <button
+            v-if="authStore.user && comment.user === authStore.user.username"
+            @click="commentStore.deleteComment(props.articleId, comment.id)"
+            class="btn btn-sm btn-outline-danger"
+          >
+            삭제
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
 
 <script setup>
 import { useCommentStore } from '@/stores/comment'
@@ -66,4 +103,5 @@ onMounted(() => {
 .list-group-item p {
   margin: 0;
 }
+
 </style>
