@@ -30,6 +30,7 @@ import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const path = sessionStorage.getItem("CURRENT_PATH");
 
 const username = ref('')
 const password1 = ref('')
@@ -56,7 +57,12 @@ const signup = () => {
             console.log(res)  // 전체 응답 확인
             const token = res.data.key
             authStore.setAuth(token)
-            router.push('/')
+            if (path === null) {
+                router.push('/')
+            } else {
+            sessionStorage.removeItem("CURRENT_PATH");
+            router.push({path: path})
+            }
         })
         .catch((err) => {
             console.log(err.response)
