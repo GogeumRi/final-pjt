@@ -66,12 +66,12 @@ const fields = [
     type: 'number',
   },
   {
-    label: '현재 자산',
+    label: '현재 자산(단위: 만원)',
     key: 'current_assets',
     type: 'number',
   },
   {
-    label: '월급',
+    label: '월급(단위: 만원)',
     key: 'wage',
     type: 'number',
   },

@@ -1,4 +1,7 @@
 <template>
+    <main class="container p-3">
+        <h1>자유게시판</h1>
+        <hr>
     <div class="write-container">
         <button @click="goBack" class="btn btn-secondary mb-3">뒤로가기</button>
         <h1>게시글 작성</h1>
@@ -8,6 +11,7 @@
                 <button type="submit" class="btn-submit">작성</button>
             </form>
     </div>
+    </main>
 </template>
 
 <script setup>
