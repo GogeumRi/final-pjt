@@ -5,7 +5,7 @@
       <!-- 좌측 로고 -->
       <RouterLink to="/" class="navbar-brand d-flex align-items-center">
         <img src="@/assets/final_logo.png" alt="로고" height="60" class="me-2" />
-        <span>Pynance</span>
+        <span>PYNANCE</span>
       </RouterLink>
 
       <!-- 우측 로그인/회원가입/로그아웃 -->
