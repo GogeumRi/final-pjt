@@ -12,6 +12,7 @@ import ArticleDetailView from '../views/ArticleDetailView.vue'
 import ArticleEditView from '../views/ArticleEditView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import RecommendView from '@/views/RecommendView.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,6 +61,15 @@ const router = createRouter({
       path: '/articles/create',
       name: 'articleCreate',
       component: ArticleCreateView,
+        beforeEnter(to, from, next) {
+        const auth = useAuthStore()
+        if (!auth.isAuthenticated) {
+          sessionStorage.setItem("CURRENT_PATH", to.path)
+          swal('로그인이 필요합니다.', '', 'warning')
+          next({name:'signin'})
+        } else{
+          next();
+        }}
     },
     {
       path: '/articles/:id',
@@ -70,16 +80,43 @@ const router = createRouter({
       path: '/articles/:id/edit',
       name: 'articleEdit',
       component: ArticleEditView,
+        beforeEnter(to, from, next) {
+        const auth = useAuthStore()
+        if (!auth.isAuthenticated) {
+          sessionStorage.setItem("CURRENT_PATH", to.path)
+          swal('로그인이 필요합니다.', '', 'warning')
+          next({name:'signin'})
+        } else{
+          next();
+        }}
     },
     {
       path: '/profile',
       name: 'profile',
       component: ProfileView,
+        beforeEnter(to, from, next) {
+        const auth = useAuthStore()
+        if (!auth.isAuthenticated) {
+          sessionStorage.setItem("CURRENT_PATH", to.path)
+          swal('로그인이 필요합니다.', '', 'warning')
+          next({name:'signin'})
+        } else{
+          next();
+        }}
     },
     {
       path: '/recommend',
       name: 'recommend',
       component: RecommendView,
+      beforeEnter(to, from, next) {
+        const auth = useAuthStore()
+        if (!auth.isAuthenticated) {
+          sessionStorage.setItem("CURRENT_PATH", to.path)
+          swal('로그인이 필요합니다.', '', 'warning')
+          next({name:'signin'})
+        } else{
+          next();
+        }}
     },
   ],
 })
