@@ -6,7 +6,7 @@ from .serializers import ProductSerializer, OptionSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 # Create your views here.
 
 @api_view(['GET'])
@@ -94,7 +94,7 @@ def change_interests(request, pk):
                 subject = f"가입하신 상품 {product.fin_prdt_nm} 의 금리가 변경되었습니다."
                 address = user.email.rstrip()
                 print(address)
-                email = EmailMessage(subject, mail_context, to=[address])
-                email.send()
+                # email = EmailMessage(subject, mail_context, to=[address])
+                send_mail(subject, mail_context, 'test@gmail.com', [address])
     info = ProductSerializer(product)
     return Response(info.data, status=200)

@@ -32,5 +32,5 @@ class CustomUser(AbstractUser):
         null=True,
     )
 
-    subscribed_products = JSONField(default=list, blank=True, null=True)
+    subscribed_products = models.TextField()
     
