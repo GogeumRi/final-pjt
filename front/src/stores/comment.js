@@ -11,7 +11,7 @@ export const useCommentStore = defineStore('comment', {
         fetchComments(articleId) {
             axios.get(`api/v1/articles/${articleId}/comments/`)
             .then((res) => {
-                this.comments = res.data
+                this.comments = res.data                
             })
             .catch((err) => {
                 console.log(err)

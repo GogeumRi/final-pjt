@@ -11,7 +11,7 @@
         <div class="flex-fill me-md-3">
           <p class="mb-1"><strong>작성자:</strong> {{ comment.user }}</p>
           <div v-if="!comment.isEditing">
-            <p class="mb-2"><strong>댓글:</strong> {{ comment.content }}</p>
+            <p class="mb-2" v-html="comment.content.replace(/\n/g, '<br>')"></p>
           </div>
           <div v-else>
             <textarea
