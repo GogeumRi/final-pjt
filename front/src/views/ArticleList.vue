@@ -1,6 +1,6 @@
 <template>
     <main class="container">
-    <h1 class="my-3">게시글</h1>
+    <h1 class="my-3">자유게시판</h1>
     <hr>
     <article>
         <div class="d-flex justify-content-between align-items-center my-3">

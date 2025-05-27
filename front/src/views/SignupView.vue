@@ -1,7 +1,9 @@
 <template>
-    <div>
+  <main class="container">
+    <h1 class="my-3">회원가입</h1>
+    <hr>
         <SignupForm />
-    </div>
+  </main>
 </template>
 
 <script setup>
