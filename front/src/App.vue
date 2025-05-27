@@ -30,7 +30,7 @@
           <RouterLink :to="{ name: 'video' }" class="nav-link me-5">주식정보</RouterLink>
           <RouterLink :to="{ name: 'map' }" class="nav-link me-5">은행지도</RouterLink>
           <RouterLink to="/articles" class="nav-link me-5">자유게시판</RouterLink>
-          <RouterLink to="/recommend" class="nav-link me-5" v-if="isLoggedIn">상품추천</RouterLink>
+          <RouterLink to="/recommend" class="nav-link me-5">상품추천</RouterLink>
         </div>
       </div>
     </nav>

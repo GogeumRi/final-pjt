@@ -10,6 +10,9 @@
         <hr>
             <ArticleCard
             v-for="article in articleStore.articles" :key="article.id" :article="article" />
+            <div>
+                <p v-if="articleStore.articles.length === 0">게시글이 없습니다.</p>
+            </div>
     </article>
     </main>
 

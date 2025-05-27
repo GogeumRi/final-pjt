@@ -13,7 +13,12 @@
         <h5 class="mb-4">추천 상품</h5>
         <figure class="text-end">
           <blockquote class="blockquote">
-            <p>연령 {{profile.age}} 세, 보유 자산 {{profile.current_assets}} 만원, 연봉 {{ profile.wage }} 만원인 {{ profile.nickname }} 님께...</p>
+            <p>
+              <span v-if="profile.age">연령 {{profile.age}}세 - </span>
+              <span v-if="profile.current_assets">보유 자산 {{profile.current_assets}} 만원 - </span>
+              <span v-if="profile.wage">연봉 {{ profile.wage }} 만원 - </span>
+              {{ profile.nickname ? profile.nickname : authStore.user.username }} 님께 드리는 추천 상품
+            </p>
           </blockquote>
           <figcaption class="blockquote-footer">
             <cite title="Source Title">GPT 4o-mini</cite> 모델 분석결과
@@ -157,7 +162,7 @@ onMounted(async () => {
   Object.assign(profile, data)
 
   const client = new OpenAI({
-    apiKey: import.meta.env.VITE_GPT_MY_KEY,
+    apiKey: import.meta.env.VITE_GPT_KEY,
     dangerouslyAllowBrowser: true,
   })
 
@@ -192,7 +197,7 @@ onMounted(async () => {
   } catch (error) {
     swal('AI 분석 실패', '잠시 후 다시 시도해 주세요. (더미데이터가 대신 출력됩니다.)', 'error')
     recommendations.value = ["WR0001L", "10527001000925000", "WR0001F", "21001259"]
-    console.error("API 호출 에러 또는 JSON 파싱 실패:", error)
+    console.error("API 호출 에러", error)
   } finally {
     isLoading.value = false
 
