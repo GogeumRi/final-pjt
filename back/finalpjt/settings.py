@@ -150,8 +150,17 @@ REST_FRAMEWORK = {
 
 SITE_ID = 1
 
+# REST_USE_JWT = True
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 REST_AUTH_REGISTER_SERIALIZER = 'accounts.serializers.CustomRegisterSerializer'
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.naver.com'
+# EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'info@pynance.com'
