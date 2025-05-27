@@ -87,9 +87,9 @@ const authStore = useAuthStore()
 }
 
 .carousel-img {
-  height: calc(100vh - 110px); /* Adjust for nav/header height */
+  height: calc(100vh - 138px); /* Adjust for nav/header height */
   width: 100%;
-  opacity: 0.8;
+  opacity: 0.7;
   object-fit: cover;
 }
 
