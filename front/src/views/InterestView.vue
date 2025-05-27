@@ -95,10 +95,14 @@ const searchBank = function (no, trm) {
     })
   } else {
     SavingList.value.forEach(product => {
-      if (no === '-1') {
+      if (no === '-1' && trm === -1) {
           product.isShow = true
         } else {
-        if (product.fin_co_no === no) {
+        if (no === '-1' && product.intrs[trm] !== '-') {
+          product.isShow = true
+        } else if (product.fin_co_no === no && trm === -1) {
+          product.isShow = true
+        } else if (product.fin_co_no === no && product.intrs[trm] !== '-') {
           product.isShow = true
         } else {
           product.isShow = false

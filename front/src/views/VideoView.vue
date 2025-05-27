@@ -71,9 +71,7 @@ const video = useVideoStore()
 const keyword = ref('')
 const selectedVideo = ref({id: {videoId: null}, snippet: {title: null, description: null, publishedAt: 'YYYY-MM-DDTHH:MM:SS'}})
 
-// 유튜브 API 키 (본인 키로 교체)
-const API_KEY = 'AIzaSyBSGBNUb8tA-V4ed92Qetl2ZB5ElbttjV4'
-
+const API_KEY = import.meta.env.VITE_YOUTUBE_KEY
 async function onSearch() {
   if (!keyword.value.trim()) {
     swal('검색 실패', "검색어를 입력하세요.", 'warning')
