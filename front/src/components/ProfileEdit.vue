@@ -1,7 +1,7 @@
 <template>
     <article class="container p-3">
     <div class="mb-3 input-group">
-        <label class="col-4 col-form-label text-center">{{ field.label }}</label>
+        <label class="col-4 ps-5 col-form-label text-start">{{ field.label }}</label>
         <div class="col-6">
         <!-- text input -->
         <input

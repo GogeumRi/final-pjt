@@ -1,11 +1,17 @@
 <template>
+    <main class="container p-3">
+        <h1>자유게시판</h1>
+        <hr>
     <div class="container my-5" v-if="article">
     <button @click="goBack" class="btn btn-outline-primary mb-3">게시글 목록</button>
         <div class="mb-4">
             <header class="mb-5 text-center">
                 <h1 class="display-2 fw-bold text-primary">{{ article.title }}</h1>
-                <p class="text-muted fs-5">작성자: {{ article.user }}</p>
-                <hr class="my-4" />
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted fs-5">작성자: {{ article.user }}</span>
+                    <small class="text-muted">생성 날짜: {{ article.created_at.slice(0, 10) }}</small>
+                </div>
+                <hr>
             </header>
             <section class="content mb-5">
                 <p class="fs-4 lh-lg" v-html="article.content"></p>
@@ -28,6 +34,7 @@
     <div v-else class="text-center my-5">
         <h2 class="text-muted">로딩 중...</h2>
     </div>
+    </main>
 </template>
 
 <script setup>
