@@ -10,7 +10,6 @@ export const useAuthStore = defineStore('auth', () => {
 
     function joinPrdt(prdt) {
         prdt_list.value.push(prdt)
-        console.log(prdt_list.value)
     }
 
     function disjoinPrdt(prdt) {
@@ -20,7 +19,6 @@ export const useAuthStore = defineStore('auth', () => {
                 i--
             }
         }
-        console.log(prdt_list.value)
     }
 
     const isAuthenticated = computed(() => token.value !== null)
@@ -34,7 +32,6 @@ export const useAuthStore = defineStore('auth', () => {
             .then((res) => {
                 user.value = res.data
                 getPrdt(res.data.pk)
-                console.log(res.data)
             })
             .catch((err) => {
                 console.error('프로필 요청 실패:', err)
@@ -49,7 +46,6 @@ export const useAuthStore = defineStore('auth', () => {
         })
         .then((res) => {
             prdt_list.value = res.data.subscribed
-            console.log(prdt_list.value)
         })
         .catch((err) => {
             console.log(err)

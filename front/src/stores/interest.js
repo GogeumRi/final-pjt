@@ -29,8 +29,8 @@ export const useInterestStore = defineStore('interest', () => {
                     }
                 })
                 product['intrs'] = intrs
-                product['avg_intr'] = avg_intr / cnt
-                product['max_intr'] = max_intr / cnt
+                product['avg_intr'] = Math.ceil(avg_intr / cnt * 100) / 100
+                product['max_intr'] = Math.ceil(max_intr / cnt * 100) / 100
                 product['isShow'] = true
                 allPrdt.value.push(product)
                 
