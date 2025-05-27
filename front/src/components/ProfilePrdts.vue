@@ -109,11 +109,13 @@ const interestStore = useInterestStore()
 const allPrdt = interestStore.allPrdt
 const JoinedPrdt = ref([])
 allPrdt.forEach((prdt) => {
-    JoinedId.forEach((id) => {
+    if (JoinedId.length > 0) {
+         JoinedId.forEach((id) => {
         if (prdt.fin_prdt_cd === id) {
             JoinedPrdt.value.push(prdt);
         }
     })
+    }
 })
 
 const selectedProduct = ref([])
@@ -191,12 +193,14 @@ const clear = function () {
 const InterestData = ref([[], [], []])
 
 onMounted(() => {
-    JoinedPrdt.value.forEach((prdt) => {
-    InterestData.value[0].push(prdt.fin_prdt_nm)
-    InterestData.value[1].push(prdt.avg_intr)
-    InterestData.value[2].push(prdt.max_intr)
-})
-    updateChart()
+    if (JoinedPrdt.value.length > 0) {
+        JoinedPrdt.value.forEach((prdt) => {
+        InterestData.value[0].push(prdt.fin_prdt_nm)
+        InterestData.value[1].push(prdt.avg_intr)
+        InterestData.value[2].push(prdt.max_intr)
+    })
+        updateChart()
+    }
 })
 
 watch(JoinedPrdt, (newArray) => {
