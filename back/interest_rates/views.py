@@ -7,12 +7,13 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 from django.core.mail import EmailMessage, send_mail
+from django.conf import settings
 # Create your views here.
 
 @api_view(['GET'])
 def save_interests_info(request, product_type):
     BASE_URL = 'http://finlife.fss.or.kr/finlifeapi/'
-    API_KEY = '373f4b9b5dcb7f5c755549c6a078f3f7' # 추후 숨길 것
+    API_KEY = settings.API_KEY
     ADDITIANL_URL = 'depositProductsSearch.json' if product_type == 0 else 'savingProductsSearch.json'
 
     URL = BASE_URL + ADDITIANL_URL
