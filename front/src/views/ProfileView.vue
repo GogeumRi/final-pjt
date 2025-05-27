@@ -14,7 +14,7 @@
       </h5>
     <hr class="mb-4">
 
-    <div v-show="InfoType">
+    <div v-show="InfoType" class="container" id="box">
       <ProfileEdit 
       v-for='field in fields'
       :key='field.key'
@@ -52,7 +52,7 @@ const profile = reactive({
 })
 
 const authStore = useAuthStore()
-const JoinedPrdt = authStore.prdt_list
+const JoinedPrdt = (authStore.prdt_list.length === 0) ? [] : authStore.prdt_list
 
 const fields = [
   {
@@ -107,5 +107,10 @@ const clear = function () {
 </script>
 
 <style scoped>
-
+#box {
+    padding: 1.5rem 0.5rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
 </style>

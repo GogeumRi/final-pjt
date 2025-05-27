@@ -1,20 +1,20 @@
 <template>
-    <div>
+    <div id="box">
         <form @submit.prevent="signup">
             <div>
-                <label for="username">아이디: </label>
+                <label for="username">아이디</label>
                 <input type="text" id="username" v-model="username" />
             </div>
             <div>
-                <label for="password1">비밀번호: </label>
+                <label for="password1">비밀번호</label>
                 <input type="password" id="password1" v-model="password1" />
             </div>
             <div>
-                <label for="password2">비밀번호 확인: </label>
+                <label for="password2">비밀번호 확인</label>
                 <input type="password" id="password2" v-model="password2" />
             </div>
             <div>
-                <label for="email">이메일: </label>
+                <label for="email">이메일</label>
                 <input type="email" id="email" v-model="email" />
             </div>
             <button type="submit">회원가입</button>
@@ -77,10 +77,10 @@ const signup = () => {
 </script>
 
 <style scoped>
-div {
+#box {
     max-width: 500px;
-    margin: 4rem auto;
-    padding: 2.5rem;
+    margin: 3rem auto;
+    padding: 1.5rem 2.5rem;
     background-color: #ffffff;
     border-radius: 1rem;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -88,6 +88,10 @@ div {
 
 form div {
     margin-bottom: 1rem;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 label {
@@ -106,7 +110,7 @@ input {
 button {
     width: 100%;
     padding: 0.6rem;
-    background-color: #198754;
+    background-color: #0d6efd;
     color: white;
     border: none;
     border-radius: 0.375rem;
@@ -114,6 +118,6 @@ button {
 }
 
 button:hover {
-    background-color: #157347;
+    background-color: #0b5ed7;
 }
 </style>

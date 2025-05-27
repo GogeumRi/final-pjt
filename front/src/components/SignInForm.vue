@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="box">
         <form @submit.prevent="signin">
             <div>
                 <label for="username">아이디</label>
@@ -43,10 +43,10 @@ const signin = () => {
 </script>
 
 <style scoped>
-div {
+#box {
     max-width: 400px;
     margin: 4rem auto;
-    padding: 2rem;
+    padding: 1.5rem 2.5rem;
     background-color: #ffffff;
     border-radius: 1rem;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -54,6 +54,10 @@ div {
 
 form div {
     margin-bottom: 1rem;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 label {
@@ -72,13 +76,13 @@ input {
 button {
     width: 100%;
     padding: 0.5rem;
-    background-color: #0d6efd;
+    background-color: #198754;
     color: white;
     border: none;
     border-radius: 0.375rem;
 }
 
 button:hover {
-    background-color: #0b5ed7;
+    background-color: #157347;
 }
 </style>
