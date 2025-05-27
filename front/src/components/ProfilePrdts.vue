@@ -17,6 +17,7 @@
                 </a>
             </li>
         </ul>
+        <hr>
         <h5>가입한 상품 금리</h5>
         <canvas ref="chartCanvas"></canvas>
       </div>
@@ -177,8 +178,17 @@ const disJoin = function () {
     })
 }
 
+const underline = function () {
+    event.target.classList.remove('link-underline-opacity-0')
+    event.target.classList.add('link-underline-opacity-100')
+}
+
+const clear = function () {
+    event.target.classList.remove('link-underline-opacity-100')
+    event.target.classList.add('link-underline-opacity-0')
+}
+
 const InterestData = ref([[], [], []])
-console.log(JoinedPrdt.value)
 
 onMounted(() => {
     JoinedPrdt.value.forEach((prdt) => {

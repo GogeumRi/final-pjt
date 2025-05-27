@@ -21,14 +21,19 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const authStore = useAuthStore()
-
+const path = sessionStorage.getItem("CURRENT_PATH");
 const username = ref('')
 const password = ref('')
 
 const signin = () => {
     authStore.login(username.value, password.value)
         .then(() => {
-            router.push('/')
+            if (path === null) {
+                router.push('/')
+            } else {
+            sessionStorage.removeItem("CURRENT_PATH");
+            router.push({path: path})
+            }
         })
         .catch(err => {
             alert('로그인 실패, 아이디와 비밀번호를 확인하세요')
