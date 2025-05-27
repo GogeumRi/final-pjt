@@ -60,8 +60,6 @@
     </div>
   </div>
 </nav>
-
-
   </header>
 
   <RouterView />
