@@ -1,21 +1,44 @@
 <template>
-  <header>
-    <nav>
-      <RouterLink to="/">홈</RouterLink> |
-      <RouterLink :to="{ name: 'interest' }">금리비교</RouterLink> |
-      <RouterLink :to="{ name: 'spot' }">현물비교</RouterLink> |
-      <RouterLink :to="{ name: 'video' }">주식정보</RouterLink> |
-      <RouterLink :to="{ name: 'map' }">은행지도</RouterLink> |
-      <RouterLink to="/articles">게시판</RouterLink>
-      <RouterLink to="/signup" v-if="!isLoggedIn">회원가입</RouterLink> |
-      <RouterLink to="/signin" v-if="!isLoggedIn">로그인</RouterLink>
-      <button @click="logout" v-else>로그아웃</button>
-      <RouterLink to="/profile" v-if="isLoggedIn">프로필</RouterLink>
-      <RouterLink to="/recommend" v-if="isLoggedIn">상품추천</RouterLink>
+  <header class="border-bottom">
+    <!-- 상단 바: 로고 + 로그인/회원가입/로그아웃 -->
+    <div class="container d-flex justify-content-between align-items-center py-2">
+      <!-- 좌측 로고 -->
+      <RouterLink to="/" class="navbar-brand d-flex align-items-center">
+        <img src="@/assets/logo.png" alt="로고" height="30" class="me-2" />
+        <span>Pynance</span>
+      </RouterLink>
+
+      <!-- 우측 로그인/회원가입/로그아웃 -->
+      <div>
+        <RouterLink to="/signup" class="btn btn-outline-primary me-2" v-if="!isLoggedIn">회원가입</RouterLink>
+        <RouterLink to="/signin" class="btn btn-outline-success me-2" v-if="!isLoggedIn">로그인</RouterLink>
+        <template v-else>
+          <span class="text-black fw-bold me-4">{{ authStore.user.username }}님</span>
+          <button @click="logout" class="btn btn-danger">로그아웃</button>
+        </template>
+      </div>
+    </div>
+
+    <!-- 하단 메뉴 바 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <div class="navbar-nav mx-auto">
+          <RouterLink to="/" class="nav-link">홈</RouterLink>
+          <RouterLink :to="{ name: 'interest' }" class="nav-link">금리비교</RouterLink>
+          <RouterLink :to="{ name: 'spot' }" class="nav-link">현물비교</RouterLink>
+          <RouterLink :to="{ name: 'video' }" class="nav-link">주식정보</RouterLink>
+          <RouterLink :to="{ name: 'map' }" class="nav-link">은행지도</RouterLink>
+          <RouterLink to="/articles" class="nav-link">게시판</RouterLink>
+          <RouterLink to="/profile" class="nav-link" v-if="isLoggedIn">프로필</RouterLink>
+          <RouterLink to="/recommend" class="nav-link" v-if="isLoggedIn">상품추천</RouterLink>
+        </div>
+      </div>
     </nav>
   </header>
-    <RouterView />
+
+  <RouterView />
 </template>
+
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
@@ -36,32 +59,3 @@ const interestStore = useInterestStore()
 interestStore.getAll()
 </script>
 
-<style scoped>
-nav {
-  background-color: #343a40;
-  padding: 1rem;
-}
-
-nav a {
-  color: #f8f9fa;
-  margin-right: 1rem;
-  text-decoration: none;
-}
-
-nav a.router-link-exact-active {
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.25rem;
-}
-
-button:hover {
-  background-color: #c82333;
-}
-</style>
