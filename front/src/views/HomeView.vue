@@ -12,7 +12,7 @@
           </div>
         </div>
         <!-- You can later add more carousel-item blocks here for other slides -->
-        <div class="carousel-item active">
+        <div class="carousel-item">
           <img src="@/assets/gold.jpg" class="d-block w-100 carousel-img" alt="금리 비교">
           <div class="carousel-caption d-none d-md-block custom-caption">
             <h1>금과 은의 시세, 한 눈에 확인하세요</h1>
@@ -20,7 +20,7 @@
             <RouterLink to="/spot" class="btn btn-primary">시세 보러가기</RouterLink>
           </div>
         </div>
-        <div class="carousel-item active">
+        <div class="carousel-item">
           <img src="@/assets/search.jpg" class="d-block w-100 carousel-img" alt="금리 비교">
           <div class="carousel-caption d-none d-md-block custom-caption">
             <h1>원하는 종목을 검색해보세요</h1>
@@ -28,7 +28,7 @@
             <RouterLink to="/video" class="btn btn-primary">검색 하러가기</RouterLink>
           </div>
         </div>
-        <div class="carousel-item active">
+        <div class="carousel-item">
           <img src="@/assets/map.jpg" class="d-block w-100 carousel-img" alt="금리 비교">
           <div class="carousel-caption d-none d-md-block custom-caption">
             <h1>은행을 검색하세요</h1>
@@ -87,9 +87,9 @@ const authStore = useAuthStore()
 }
 
 .carousel-img {
-  height: calc(100vh - 110px); /* Adjust for nav/header height */
+  height: calc(100vh - 138px); /* Adjust for nav/header height */
   width: 100%;
-  opacity: 0.8;
+  opacity: 0.7;
   object-fit: cover;
 }
 
