@@ -15,15 +15,15 @@
         <div class="carousel-item">
           <img src="@/assets/gold.jpg" class="d-block w-100 carousel-img" alt="금리 비교">
           <div class="carousel-caption d-none d-md-block custom-caption">
-            <h1>금과 은의 시세, 한 눈에 확인하세요</h1>
-            <h4>금,은 가격 변동을 그래프로 쉽게 파악해보세요</h4>
+            <h1>금/은의 시세 한눈에 확인</h1>
+            <h4>금과 은의 가격 변동을 그래프로 쉽게 파악해보세요</h4>
             <RouterLink to="/spot" class="btn btn-primary">시세 보러가기</RouterLink>
           </div>
         </div>
         <div class="carousel-item">
           <img src="@/assets/search.jpg" class="d-block w-100 carousel-img" alt="금리 비교">
           <div class="carousel-caption d-none d-md-block custom-caption">
-            <h1>원하는 종목을 검색해보세요</h1>
+            <h1>원하는 종목 검색</h1>
             <h4>주식 정보를 Youtube 영상으로 쉽고 빠르게 확인해보세요</h4>
             <RouterLink to="/video" class="btn btn-primary">검색 하러가기</RouterLink>
           </div>
@@ -31,7 +31,7 @@
         <div class="carousel-item">
           <img src="@/assets/map.jpg" class="d-block w-100 carousel-img" alt="금리 비교">
           <div class="carousel-caption d-none d-md-block custom-caption">
-            <h1>은행을 검색하세요</h1>
+            <h1>주변 은행 검색</h1>
             <h4>원하는 장소에서의 근처 원하는 은행을 검색해보세요</h4>
             <RouterLink to="/map" class="btn btn-primary">검색 하러가기</RouterLink>
           </div>

@@ -1,27 +1,27 @@
 # accounts/serializers.py
 
 import json
-from dj_rest_auth.registration.serializers import RegisterSerializer
+# from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from .models import CustomUser
 
-class CustomRegisterSerializer(RegisterSerializer):
-    subscribed_products = serializers.ListField(
-        child=serializers.CharField(),
-        required=False,
-    )
+# class CustomRegisterSerializer(RegisterSerializer):
+#     subscribed_products = serializers.ListField(
+#         child=serializers.CharField(),
+#         required=False,
+#     )
 
-    def get_cleaned_data(self):
-        data = super().get_cleaned_data()
-        data['subscribed_products'] = self.validated_data.get('subscribed_products', [])
-        return data
+#     def get_cleaned_data(self):
+#         data = super().get_cleaned_data()
+#         data['subscribed_products'] = self.validated_data.get('subscribed_products', [])
+#         return data
 
-    def save(self, request):
-        user = super().save(request)
-        products = self.get_cleaned_data()['subscribed_products']
-        user.subscribed_products = products
-        user.save()
-        return user
+#     def save(self, request):
+#         user = super().save(request)
+#         products = self.get_cleaned_data()['subscribed_products']
+#         user.subscribed_products = products
+#         user.save()
+#         return user
 
 class CustomUserProfileSerializer(serializers.ModelSerializer):
     """
@@ -62,11 +62,3 @@ class CustomUserProfileSerializer(serializers.ModelSerializer):
             instance.subscribed_products = json.dumps(new_list)
             instance.save()
         return instance
-
-# In CustomUser (models.py) add:
-#
-#   def get_subscribed_list(self):
-#       try:
-#           return json.loads(self.subscribed_products or '[]')
-#       except ValueError:
-#           return []

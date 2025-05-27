@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import CustomRegisterSerializer
+# from .serializers import CustomRegisterSerializer
 from .models import CustomUser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -9,8 +9,8 @@ from rest_framework import status
 from .serializers import CustomUserProfileSerializer
 
 
-class CustomRegisterView(RegisterView):
-    serializer_class = CustomRegisterSerializer
+# class CustomRegisterView(RegisterView):
+#     serializer_class = CustomRegisterSerializer
 
 
 @api_view(['GET'])

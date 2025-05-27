@@ -161,7 +161,7 @@ SITE_ID = 1
 # REST_USE_JWT = True
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-REST_AUTH_REGISTER_SERIALIZER = 'accounts.serializers.CustomRegisterSerializer'
+# REST_AUTH_REGISTER_SERIALIZER = 'accounts.serializers.CustomRegisterSerializer'
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
