@@ -21,7 +21,7 @@
             ></textarea>
           </div>
 
-          <small class="text-muted">{{ comment.created_at }}</small>
+          <small class="text-muted">생성 날짜: {{ comment.created_at.slice(0, 10) }}</small>
         </div>
 
         <div class="mt-3 mt-md-0 d-flex gap-2">

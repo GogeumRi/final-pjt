@@ -1,7 +1,11 @@
 <template>
 <div v-if="article" class="article-card">
     <h3>{{ article.title }}</h3>
-    <p>작성자: {{ article.user }}</p>
+    <div class="d-flex justify-content-between">
+        <p>작성자: {{ article.user }}</p>
+        <small class="text-muted">생성 날짜: {{ article.created_at.slice(0, 10) }}</small>
+    </div>
+
     <p class="article-content" v-html="htmlContent"></p>
     <keep-alive>
         <RouterLink :to="`/articles/${article.id}`" class="detail-link">상세 페이지</RouterLink>
