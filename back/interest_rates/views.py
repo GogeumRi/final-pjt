@@ -68,7 +68,7 @@ def change_interests(request, pk):
     product = Product.objects.get(pk=pk)
     data = request.data
     all_options = product.options.all()
-    mail_context = ""
+    mail_context = f"안녕하세요, 가입하신 상품 {product.fin_prdt_nm} 의 금리가 변경되어 안내 메일 보내드립니다.\n"
     for option in all_options:
         trm = option.save_trm
         if trm in data:
@@ -84,7 +84,7 @@ def change_interests(request, pk):
                 option.save()
                 changed_data.append(f"우대금리 변경 전 {old_intr2} => 변경 후 {data[trm]['intr_rate2']}")
             if len(changed_data) > 1:
-                mail_context += "\n".join(changed_data)
+                mail_context += "\n".join(changed_data) + "\n"
 
     all_user = CustomUser.objects.all()
     for user in all_user:
@@ -95,6 +95,6 @@ def change_interests(request, pk):
                 address = user.email.rstrip()
                 print(address)
                 # email = EmailMessage(subject, mail_context, to=[address])
-                send_mail(subject, mail_context, 'test@gmail.com', [address])
+                send_mail(subject, mail_context, 'leeaethra@naver.com', [address])
     info = ProductSerializer(product)
     return Response(info.data, status=200)
